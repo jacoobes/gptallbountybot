@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits } from 'discord.js';
+
 import {
 	Dependencies,
 	Sern,
@@ -6,6 +7,7 @@ import {
 	Singleton,
 	DefaultLogging,
 } from '@sern/handler';
+import { LlamaService } from './services/llama';
 
 const client = new Client({
 	intents: [
@@ -20,6 +22,7 @@ const client = new Client({
 interface MyDependencies extends Dependencies {
 	'@sern/client': Singleton<Client>;
 	'@sern/logger': Singleton<DefaultLogging>;
+        'llama': Singleton<LlamaService>
 }
 /**
  * Where all of your dependencies are composed.
@@ -33,15 +36,14 @@ interface MyDependencies extends Dependencies {
 export const useContainer = Sern.makeDependencies<MyDependencies>({
 	build: (root) =>
 		root
-			.add({ '@sern/client': single(() => client) })
-			.upsert({ '@sern/logger': single(() => new DefaultLogging()) }), //using upsert because it replaces the default provided
-});
-
+		    .add({ '@sern/client': single(() => client) })
+		    .upsert({ '@sern/logger': single(() => new DefaultLogging()) }) 
+                    .add({ 'llama': single(() => new LlamaService())})
+})
 //View docs for all options
 Sern.init({
-	defaultPrefix: '!', // removing defaultPrefix will shut down text commands
 	commands: 'dist/commands',
-	// events: 'dist/events' (optional),
+	events: 'dist/events',
 	containerConfig: {
 		get: useContainer,
 	},
