@@ -1,14 +1,13 @@
 import { type LoadConfig, LLamaCpp } from "llama-node/dist/llm/llama-cpp.js";
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { LLama } from "llama-node";
 import * as path from 'path'
 
-export enum Models {
+export enum Model {
     Vicuna7b = "ggml-vicuna-7b-1.1-q4_1.bin"
 }
 
 export class LlamaService {
-    private modelPath = path.resolve(process.cwd(), Models.Vicuna7b)
+    private modelPath = path.resolve(process.cwd(), Model.Vicuna7b)
     private config : LoadConfig = { 
         path: this.modelPath,
         enableLogging: true,
@@ -22,15 +21,12 @@ export class LlamaService {
         embedding: false,
         useMmap: true,    
     }
-    private llama = new LLama(LLamaCpp);
+    llama = new LLama(LLamaCpp);
     constructor() {}
-    tokenize(content : string) {
-        return this.llama.tokenize({ content, nCtx: 2048 })
-    }
     embed(prompt: string) {
         if(this.config.embedding){
           const params = {
-            nThreads: 4,
+            nThreads: 8,
             nTokPredict: 2048,
             topK: 40,
             topP: 0.1,
@@ -41,14 +37,13 @@ export class LlamaService {
            return this.llama.getEmbedding(params)
         }
     }
-
+    generateModelPath(m: Model) {
+        return path.resolve(process.cwd(), m)
+    }
     inference(template: string): Promise<string> {
       const prompt = `
-        Below is an instruction that describes a task. Write a response that appropriately completes the request.
-
         HUMAN:
             ${template}
-        
         ASSISTANT:`;
      return new Promise((resolve, reject) => {
           let buffer = "";
@@ -72,7 +67,6 @@ export class LlamaService {
           } catch(e) {
                 reject(e)
           }
-          
       })
       
     }
@@ -80,7 +74,5 @@ export class LlamaService {
         this.llama.load(this.config)
     }
 
-
-    
 
 }

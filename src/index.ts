@@ -40,7 +40,9 @@ export const useContainer = Sern.makeDependencies<MyDependencies>({
 		    .add({ '@sern/client': single(() => client) })
 		    .upsert({ '@sern/logger': single(() => new DefaultLogging()) }) 
                     .add({ 'llama': single(() => new LlamaService())})
-                    .add({ 'inference': single(() => new InferenceService())})
+                    .add(ctx => {
+                       return { 'inference': single(() => new InferenceService(ctx['llama'])) }
+                    })
 })
 
 client.once('ready', () => {

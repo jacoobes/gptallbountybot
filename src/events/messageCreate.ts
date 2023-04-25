@@ -5,12 +5,12 @@ export default discordEvent({
     name: 'messageCreate',
     plugins: [ ],
     execute: (m) => {
-        if(m.channel.isThread()) return
+        if(!m.channel.isThread()) return
         const [ inf ] = useContainer('inference')
         const activeThread = inf.getThread(m.channel.id)
         if(!activeThread) return;
 
+        console.log(inf.getVectorStore(activeThread))
         
-
     }
 })

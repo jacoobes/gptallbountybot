@@ -2,7 +2,7 @@ import { commandModule, CommandType } from "@sern/handler";
 import { ApplicationCommandOptionType, ChannelType, TextChannel } from "discord.js";
 import { channelType } from "../plugins/channelType.js";
 import { publish } from "../plugins/publish.js";
-import { Models } from "../services/llama.js";
+import { Model } from "../services/llama.js";
 
 
 export default commandModule({
@@ -17,7 +17,7 @@ export default commandModule({
         name: 'model', 
         description: 'choose a model',
         type: ApplicationCommandOptionType.String,
-        choices: Object.entries(Models).map(
+        choices: Object.entries(Model).map(
             ([name, value]) => ({ name, value })
         ),
         required: true
@@ -31,7 +31,7 @@ export default commandModule({
      }
    ],
    execute:  async (ctx, [type, args]) => {
-       const model = args.getString('model', true) as Models;
+       const model = args.getString('model', true) as Model;
        const startingPrompt = args.getString('chat', true);
        const c = ctx.interaction.channel as TextChannel
        const m = await ctx.reply(`New chat: ${model};;${startingPrompt}`);

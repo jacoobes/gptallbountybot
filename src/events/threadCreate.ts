@@ -15,7 +15,7 @@ export default eventModule({
             const tms = msg.content.substring(startContentLocation+2)
             const p = await llama.inference(tms)
             await thread.send(p)
-            inference.addThread(thread.id, thread)
+            await inference.addThread(thread.id, thread, [tms])
             
     },
 });
