@@ -7,8 +7,7 @@ import {
 	DefaultLogging,
 } from '@sern/handler';
 import { LlamaService } from './services/llama.js';
-import dotenv from 'dotenv'
-dotenv.config()
+import 'dotenv/config'
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,

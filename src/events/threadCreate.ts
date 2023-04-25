@@ -13,7 +13,8 @@ export default eventModule({
             const [ llama ] = useContainer('llama')
             const startContentLocation = msg.content.indexOf(';;')
             const tms = msg.content.substring(startContentLocation+2)
-            llama.inference(tms)
-            thread.send("Sup")
+            const p = await llama.inference(tms)
+            thread.send(p)
+            
     },
 });

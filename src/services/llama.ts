@@ -42,23 +42,39 @@ export class LlamaService {
         }
     }
 
-    inference(template: string) {
-      const prompt = `The message should have no HTML: ${template}`;
+    inference(template: string): Promise<string> {
+      const prompt = `
+        Below is an instruction that describes a task. Write a response that appropriately completes the request.
 
-      this.llama.createCompletion({
-              nThreads: 4,
-              nTokPredict: 2048,
-              topK: 40,
-              topP: 0.1,
-              temp: 0.2,
-              repeatPenalty: 1,
-              stopSequence: 'The message should have no HTML:',
-              prompt,
-          },
-          (response) => {
-              process.stdout.write(response.token);
-          });
-
+        HUMAN:
+            ${template}
+        
+        ASSISTANT:`;
+     return new Promise((resolve, reject) => {
+          let buffer = "";
+          try {
+            this.llama.createCompletion({
+                nThreads: 4,
+                nTokPredict: 2048,
+                topK: 40,
+                topP: 0.1,
+                temp: 0.2,
+                repeatPenalty: 1,
+                stopSequence: 'HUMAN:',
+                prompt,
+            },  (response) => {
+                if(response.completed) {
+                    resolve(buffer) 
+                } else {
+                    buffer+=response.token
+                }
+            });
+          } catch(e) {
+                reject(e)
+          }
+          
+      })
+      
     }
     init() {
         this.llama.load(this.config)
