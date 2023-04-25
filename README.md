@@ -15,3 +15,5 @@ An attempt to get the bounty for discord bot that is integrated with gpt4all
 Being open source, feel free to hack it :D
 
 At the moment, it can answer simple questions. No inference contexts or model switching yet. gpt-j support has not been integrated
+
+You'll need to install the llama models and put it in root directory. (its too fat to put on github)
