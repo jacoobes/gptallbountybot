@@ -1,5 +1,4 @@
 import { Client, GatewayIntentBits } from 'discord.js';
-
 import {
 	Dependencies,
 	Sern,
@@ -7,8 +6,9 @@ import {
 	Singleton,
 	DefaultLogging,
 } from '@sern/handler';
-import { LlamaService } from './services/llama';
-
+import { LlamaService } from './services/llama.js';
+import dotenv from 'dotenv'
+dotenv.config()
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -38,7 +38,12 @@ export const useContainer = Sern.makeDependencies<MyDependencies>({
 		root
 		    .add({ '@sern/client': single(() => client) })
 		    .upsert({ '@sern/logger': single(() => new DefaultLogging()) }) 
-                    .add({ 'llama': single(() => new LlamaService())})
+                    .add({ 'llama': single(() => new LlamaService())}),
+})
+
+client.once('ready', () => {
+    const [ llama ] = useContainer('llama')
+    llama.init()
 })
 //View docs for all options
 Sern.init({

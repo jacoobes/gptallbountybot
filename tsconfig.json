@@ -2,10 +2,11 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "ESNext",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
