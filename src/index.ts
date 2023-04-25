@@ -8,6 +8,7 @@ import {
 } from '@sern/handler';
 import { LlamaService } from './services/llama.js';
 import 'dotenv/config'
+import { InferenceService } from './services/inferenceService.js';
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -21,7 +22,8 @@ const client = new Client({
 interface MyDependencies extends Dependencies {
 	'@sern/client': Singleton<Client>;
 	'@sern/logger': Singleton<DefaultLogging>;
-        'llama': Singleton<LlamaService>
+        'llama': Singleton<LlamaService>;
+        'inference': Singleton<InferenceService>;
 }
 /**
  * Where all of your dependencies are composed.
@@ -37,7 +39,8 @@ export const useContainer = Sern.makeDependencies<MyDependencies>({
 		root
 		    .add({ '@sern/client': single(() => client) })
 		    .upsert({ '@sern/logger': single(() => new DefaultLogging()) }) 
-                    .add({ 'llama': single(() => new LlamaService())}),
+                    .add({ 'llama': single(() => new LlamaService())})
+                    .add({ 'inference': single(() => new InferenceService())})
 })
 
 client.once('ready', () => {

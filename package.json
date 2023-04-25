@@ -19,7 +19,8 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "langchain": "^0.0.63",
-    "llama-node": "^0.0.30"
+    "llama-node": "^0.0.30",
+    "node-cache": "^5.1.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.25",

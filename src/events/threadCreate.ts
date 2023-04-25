@@ -10,12 +10,12 @@ export default eventModule({
 	async execute(thread: AnyThreadChannel, _: boolean) {
 	    const msg = await thread.fetchStarterMessage().catch(() => null);
 	    if (!msg) return thread.setLocked(true);
-            const [ llama ] = useContainer('llama')
+            const [ llama, inference ] = useContainer('llama', 'inference')
             const startContentLocation = msg.content.indexOf(';;')
             const tms = msg.content.substring(startContentLocation+2)
             const p = await llama.inference(tms)
             await thread.send(p)
-            
+            inference.addThread(thread.id, thread)
             
     },
 });
