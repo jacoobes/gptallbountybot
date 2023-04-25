@@ -14,7 +14,8 @@ export default eventModule({
             const startContentLocation = msg.content.indexOf(';;')
             const tms = msg.content.substring(startContentLocation+2)
             const p = await llama.inference(tms)
-            thread.send(p)
+            await thread.send(p)
+            
             
     },
 });

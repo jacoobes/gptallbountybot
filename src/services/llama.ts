@@ -1,5 +1,5 @@
 import { type LoadConfig, LLamaCpp } from "llama-node/dist/llm/llama-cpp.js";
-//import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { LLama } from "llama-node";
 import * as path from 'path'
 
