@@ -9,7 +9,7 @@ DICORD_TOKEN=yourdiscordtoken
 ```
 `yarn run start`
 
-
+I used [sern](https://sern.dev) as the framework to create this bot.
 An attempt to get the bounty for discord bot that is integrated with gpt4all
 
 Being open source, feel free to hack it :D
