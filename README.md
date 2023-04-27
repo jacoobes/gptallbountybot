@@ -2,7 +2,7 @@
 https://discord.com/oauth2/authorize?client_id=1100146637814378538&scope=bot&permissions=397284584528
 
 dev:
-Make a .env file :
+Make a .env file in root director:
 ```
 DICORD_TOKEN=yourdiscordtoken
 
